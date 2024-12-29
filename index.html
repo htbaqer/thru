@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الخريطة</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Tajawal', sans-serif;
+            direction: rtl;
+        }
+
+        #map {
+            height: 100vh;
+            width: 100%;
+        }
+
+        .map-overlay {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: white;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+
+        .map-overlay h1 {
+            font-size: 18px;
+            margin: 0;
+            color: #333;
+        }
+
+        .map-overlay button {
+            margin-top: 10px;
+            padding: 8px 16px;
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .map-overlay button:hover {
+            background: linear-gradient(to right, #2575fc, #6a11cb);
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD2kNcu6-fdKN0-2ZD3CdvHqG2bRuPldfI"></script>
+    <script>
+        function initMap() {
+            const centerLocation = { lat: 29.3374, lng: 48.0289 }; // جمعية الزهراء التعاونية
+            const map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 15,
+                center: centerLocation,
+            });
+
+            // Example markers
+            const locations = [
+                { lat: 29.3385, lng: 48.0295, name: "محل 1" },
+                { lat: 29.3365, lng: 48.0275, name: "محل 2" },
+            ];
+
+            locations.forEach((location) => {
+                const marker = new google.maps.Marker({
+                    position: { lat: location.lat, lng: location.lng },
+                    map: map,
+                    title: location.name,
+                });
+
+                const infoWindow = new google.maps.InfoWindow({
+                    content: `<p>${location.name}</p>`
+                });
+
+                marker.addListener("click", () => {
+                    infoWindow.open(map, marker);
+                });
+            });
+        }
+    </script>
+</head>
+<body onload="initMap()">
+    <div id="map"></div>
+    <div class="map-overlay">
+        <h1>محلات قريبة</h1>
+        <button onclick="alert('تحديث الموقع')">تحديث</button>
+    </div>
+</body>
+</html>
